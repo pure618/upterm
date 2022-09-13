@@ -1,0 +1,103 @@
+{
+  "name": "upterm",
+  "productName": "Upterm",
+  "description": "A terminal emulator for the 21st century.",
+  "version": "0.4.4",
+  "main": "compiled/src/main/Main.js",
+  "author": "Volodymyr Shatskyi <shockone89@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/railsware/upterm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/railsware/upterm/issues"
+  },
+  "engines": {
+    "node": ">=8.0.0 || >=10.0.0"
+  },
+  "keywords": [
+    "terminal",
+    "emulator",
+    "shell",
+    "console"
+  ],
+  "dependencies": {
+    "child-process-promise": "2.2.1",
+    "chokidar": "2.0.3",
+    "classnames": "2.2.5",
+    "csv-parse": "2.2.0",
+    "csv-stringify": "3.0.0",
+    "dirStat": "0.0.2",
+    "font-awesome": "4.7.0",
+    "fs-extra": "5.0.0",
+    "immutable": "3.8.2",
+    "klaw": "2.1.1",
+    "lodash": "4.17.11",
+    "mode-to-permissions": "0.0.2",
+    "monaco-editor": "vlad-shatskyi/monaco-editor",
+    "node-ansiparser": "2.2.0",
+    "node-pty": "0.7.4",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "rxjs": "5.5.8",
+    "tinycolor2": "1.4.1"
+  },
+  "devDependencies": {
+    "@types/chai": "4.1.3",
+    "@types/chokidar": "1.7.5",
+    "@types/classnames": "2.2.3",
+    "@types/csv-parse": "1.1.11",
+    "@types/csv-stringify": "1.4.2",
+    "@types/enzyme": "3.1.10",
+    "@types/fs-extra": "5.0.2",
+    "@types/klaw": "2.1.1",
+    "@types/lodash": "4.14.116",
+    "@types/mocha": "5.2.0",
+    "@types/node": "9.6.1",
+    "@types/react": "16.1.0",
+    "@types/webdriverio": "4.10.1",
+    "chai": "4.1.2",
+    "concurrently": "3.5.1",
+    "cpx": "1.5.0",
+    "cross-env": "5.1.4",
+    "devtron": "1.4.0",
+    "electron": "2.0.10",
+    "electron-builder": "20.28.4",
+    "electron-mocha": "6.0.4",
+    "enzyme": "3.3.0",
+    "mkdirp": "0.5.1",
+    "mocha": "5.2.0",
+    "npm-check-updates": "2.14.2",
+    "react-addons-test-utils": "15.6.2",
+    "rimraf": "2.6.2",
+    "spectron": "3.8.0",
+    "ts-node": "5.0.1",
+    "tslint": "5.9.1",
+    "typescript": "2.8.1"
+  },
+  "scripts": {
+    "preinstall": "npm prune",
+    "postinstall": "electron-builder install-app-deps",
+    "pack": "build",
+    "electron": "electron .",
+    "prestart": "npm install && npm run compile",
+    "start": "concurrently --kill-others -s first \"tsc --watch\" \"cross-env NODE_ENV=development npm run electron\"",
+    "test": "npm run lint && npm run compile && npm run unit-tests && npm run ui-tests && npm run integration-tests",
+    "unit-tests": "NODE_ENV=test electron-mocha --require ts-node/register $(find test -name '*_spec.ts')",
+    "ui-tests": "NODE_ENV=test electron-mocha --require ts-node/register $(find test -name '*_spec.tsx')",
+    "integration-tests": "NODE_ENV=test electron-mocha --require ts-node/register test/e2e.ts",
+    "update-dependencies": "ncu -u",
+    "lint": "tslint `find src -name '*.ts*'` `find test -name '*.ts*'`",
+    "cleanup": "rimraf compiled/src",
+    "copy-html": "mkdirp compiled/src/views && cpx src/views/index.html compiled/src/views",
+    "compile": "npm run cleanup && npm run tsc && npm run copy-html",
+    "tsc": "tsc"
+  },
+  "license": "MIT",
+  "build": {
+    "appId": "com.github.railsware.upterm",
+    "linux": {
+      "icon": "icons"
+    }
+  }
+}
